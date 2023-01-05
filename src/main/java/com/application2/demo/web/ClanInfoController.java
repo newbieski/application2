@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @RequiredArgsConstructor
 @ResponseBody
@@ -52,7 +53,7 @@ public class ClanInfoController {
         JSONObject response = getClansMembers();
         JSONArray items = response.getJSONArray("items");
         StringBuffer result = new StringBuffer();
-        LocalDateTime time = LocalDateTime.now();
+        LocalDateTime time = LocalDateTime.now(ZoneOffset.UTC);
         for (int i = 0 ; i < items.length() ; i++) {
             JSONObject member = items.getJSONObject(i);
             MemberListSaveRequestDto requestDto = MemberListSaveRequestDto.builder()
