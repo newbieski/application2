@@ -16,9 +16,6 @@ public class MemberList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    Date regTimestamp;
-
     @Column
     private String name;
 
@@ -26,12 +23,12 @@ public class MemberList {
     private String tag;
 
     @Column
-    private LocalDateTime time;
+    private LocalDateTime regTime;
 
     @Builder
     public MemberList(String name, String tag, LocalDateTime time) {
         this.name = name;
         this.tag = tag;
-        this.time = time;
+        this.regTime = time;
     }
 }
