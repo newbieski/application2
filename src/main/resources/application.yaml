@@ -1,0 +1,11 @@
+clan:
+  tag: "%232lp8rlqp"
+  url:  https://api.clashofclans.com/v1
+  api_token: ${ENV_API_TOKEN}
+restTemplate:
+  factory:
+    readTimeout: 5000 
+    connectTimeout: 3000
+  httpClient:
+    maxConnTotal: 100
+    maxConnPerRoute: 5 
