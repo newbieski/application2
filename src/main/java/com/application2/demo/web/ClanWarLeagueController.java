@@ -103,8 +103,8 @@ public class ClanWarLeagueController {
                                     .endTime(endTime)
                                     .clanTag(war.getJSONObject("clan").get("tag").toString())
                                     .clanName(war.getJSONObject("clan").get("name").toString())
-                                    .opponentTag(war.getJSONObject("opponent").get("name").toString())
-                                    .opponentName(war.getJSONObject("opponent").get("tag").toString())
+                                    .opponentTag(war.getJSONObject("opponent").get("tag").toString())
+                                    .opponentName(war.getJSONObject("opponent").get("name").toString())
                                     .regTime(regTime)
                                     .build();
             
