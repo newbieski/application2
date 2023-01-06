@@ -1,5 +1,5 @@
 package com.application2.demo.service.capitalraidresult;
-import com.application2.demo.domain.CapitalRaidResult.CapitalRaidResultRepository;
+import com.application2.demo.domain.capitalraidresult.CapitalRaidResultRepository;
 import com.application2.demo.web.dto.CapitalRaidResultDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

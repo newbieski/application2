@@ -1,4 +1,4 @@
-package com.application2.demo.domain.CapitalRaidResult;
+package com.application2.demo.domain.capitalraidresult;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,6 +1,6 @@
 package com.application2.demo.web.dto;
 
-import com.application2.demo.domain.CapitalRaidResult.CapitalRaidResult;
+import com.application2.demo.domain.capitalraidresult.CapitalRaidResult;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
