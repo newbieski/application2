@@ -1,8 +1,8 @@
 package com.application2.demo.web;
 
 import com.application2.demo.config.ClanConfig;
-import com.application2.demo.service.warleaguetaglist.WarLeagueTagListService;
-import com.application2.demo.web.dto.WarLeagueTagListDto;
+import com.application2.demo.service.clanwarleaguetaglist.ClanWarLeagueTagListService;
+import com.application2.demo.web.dto.ClanWarLeagueTagListDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,20 +32,20 @@ public class ClanWarLeagueController {
     private Logger logger = LoggerFactory.getLogger(ClanWarLeagueController.class);
     @Autowired
     ClanConfig clanConfig;
-    private final WarLeagueTagListService warLeagueTagListService;
+    private final ClanWarLeagueTagListService clanWarLeagueTagListService;
     
-    @GetMapping("/warleague/taglist")
+    @GetMapping("/clanwarleague/taglist")
     public String getTagList() {
-        return getWarligTagList().toString();
+        return getClanWarligTagList().toString();
     }
     
-    @PostMapping("/warleague/taglist")
+    @PostMapping("/clanwarleague/taglist")
     public String saveTagList() {
-        JSONObject response = getWarligTagList();
+        JSONObject response = getClanWarligTagList();
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime regTime = LocalDateTime.now(ZoneOffset.UTC);
-        LocalDateTime warLeagueTime = LocalDateTime.parse(yyyymmConverter(response.get("season").toString()), formatter);
+        LocalDateTime clanWarLeagueTime = LocalDateTime.parse(yyyymmConverter(response.get("season").toString()), formatter);
         
         JSONArray rounds = response.getJSONArray("rounds");
         for (int i = 0 ; i < rounds.length() ; i++) {
@@ -54,12 +54,12 @@ public class ClanWarLeagueController {
                 String warTag = warTags.get(j).toString();
                 logger.info(warTag);
                 if (!"#0".equals(warTag)) {
-                    WarLeagueTagListDto warLeagueTagListDto = WarLeagueTagListDto.builder()
+                    ClanWarLeagueTagListDto clanWarLeagueTagListDto = ClanWarLeagueTagListDto.builder()
                         .tag(warTag)
-                        .warLeagueTime(warLeagueTime)
+                        .clanWarLeagueTime(clanWarLeagueTime)
                         .regTime(regTime)
                         .build();
-                    warLeagueTagListService.save(warLeagueTagListDto);
+                    clanWarLeagueTagListService.save(clanWarLeagueTagListDto);
                 }
             }
         }
@@ -77,7 +77,7 @@ public class ClanWarLeagueController {
     }
     
     
-    private JSONObject getWarligTagList() {
+    private JSONObject getClanWarligTagList() {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(clanConfig.getCLAN_API_TOKEN());

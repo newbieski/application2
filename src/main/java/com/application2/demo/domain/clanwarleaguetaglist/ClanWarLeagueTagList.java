@@ -1,4 +1,4 @@
-package com.application2.demo.domain.warleaguetaglist;
+package com.application2.demo.domain.clanwarleaguetaglist;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.Date;
 @Getter
 @NoArgsConstructor
 @Entity
-public class WarLeagueTagList {
+public class ClanWarLeagueTagList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,15 +20,15 @@ public class WarLeagueTagList {
     private String tag;
     
     @Column
-    private LocalDateTime warLeagueTime;
+    private LocalDateTime clanWarLeagueTime;
 
     @Column
     private LocalDateTime regTime;
 
     @Builder
-    public WarLeagueTagList(String tag, LocalDateTime warLeagueTime, LocalDateTime regTime) {
+    public ClanWarLeagueTagList(String tag, LocalDateTime clanWarLeagueTime, LocalDateTime regTime) {
         this.tag = tag;
-        this.warLeagueTime = warLeagueTime;
+        this.clanWarLeagueTime = clanWarLeagueTime;
         this.regTime = regTime;
     }
 }
