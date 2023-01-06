@@ -3,6 +3,8 @@ package com.application2.demo.web;
 import com.application2.demo.config.ClanConfig;
 import com.application2.demo.service.clanwarleaguetaglist.ClanWarLeagueTagListService;
 import com.application2.demo.web.dto.ClanWarLeagueTagListDto;
+import com.application2.demo.service.clanwarleague.ClanWarLeagueWarService;
+import com.application2.demo.web.dto.ClanWarLeagueWarDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,24 +26,28 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 @RequiredArgsConstructor
 @ResponseBody
 @RestController
 public class ClanWarLeagueController {
     private Logger logger = LoggerFactory.getLogger(ClanWarLeagueController.class);
+    
     @Autowired
     ClanConfig clanConfig;
     private final ClanWarLeagueTagListService clanWarLeagueTagListService;
+    private final ClanWarLeagueWarService clanWarLeagueWarService;
     
     @GetMapping("/clanwarleague/taglist")
     public String getTagList() {
-        return getClanWarligTagList().toString();
+        return getClanWarleagueTagList().toString();
     }
     
     @PostMapping("/clanwarleague/taglist")
     public String saveTagList() {
-        JSONObject response = getClanWarligTagList();
+        JSONObject response = getClanWarleagueTagList();
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime regTime = LocalDateTime.now(ZoneOffset.UTC);
@@ -66,6 +72,45 @@ public class ClanWarLeagueController {
         
         return "200";
     }
+    
+    @GetMapping("/clanwarleague/allwar")
+    public String getAllWar() {
+        StringBuffer response = new StringBuffer();
+        List<String> warTagList = getWarTagList();
+        for (String warTag : warTagList) {
+            response.append(getClanWarLeagueWar(warTag).toString());
+            response.append("<br>");
+        }
+        return response.toString();
+    }
+    
+    @PostMapping("/clanwarleague/allwar")
+    public String saveAllWar() {
+        List<String> warTagList = getWarTagList();
+        LocalDateTime regTime = LocalDateTime.now(ZoneOffset.UTC);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss.SSS'Z'");
+        for (String warTag : warTagList) {
+            JSONObject war = getClanWarLeagueWar(warTag);
+            LocalDateTime startTime = LocalDateTime.parse(war.get("startTime").toString(), formatter);
+            LocalDateTime endTime = LocalDateTime.parse(war.get("endTime").toString(), formatter);
+            ClanWarLeagueWarDto clanWarLeagueWarDto = ClanWarLeagueWarDto.builder()
+                                    .state(war.get("state").toString())
+                                    .teamSize(Long.valueOf(war.get("teamSize").toString()))
+                                    .startTime(startTime)
+                                    .endTime(endTime)
+                                    .clanTag(war.getJSONObject("clan").get("tag").toString())
+                                    .clanName(war.getJSONObject("clan").get("name").toString())
+                                    .opponentTag(war.getJSONObject("opponent").get("name").toString())
+                                    .opponentName(war.getJSONObject("opponent").get("tag").toString())
+                                    .regTime(regTime)
+                                    .build();
+            
+            clanWarLeagueWarService.save(clanWarLeagueWarDto);
+            
+        }
+        return "200";
+    }
+    
     private String yyyymmConverter(String yyyymm) {
         StringBuffer res = new StringBuffer();
         String strs[] = yyyymm.split("-");
@@ -76,14 +121,29 @@ public class ClanWarLeagueController {
         return res.toString();
     }
     
+    private String tagConverter(String tag) {
+        StringBuffer res = new StringBuffer("%23");
+        res.append(tag.substring(1));
+        return res.toString();
+    }
     
-    private JSONObject getClanWarligTagList() {
+    
+    private JSONObject getClanWarleagueTagList() {
+        String urlString = clanConfig.getCLAN_API()+"/clans"+"/"+ clanConfig.getCLAN_TAG()+"/currentwar/leaguegroup";
+        return cocGetRequest(urlString);
+    }
+    
+    private JSONObject getClanWarLeagueWar(String warTag) {
+        warTag = tagConverter(warTag);
+        String urlString = clanConfig.getCLAN_API()+"/clanwarleagues/wars/"+ warTag;
+        return cocGetRequest(urlString);
+    }
+    
+    private JSONObject cocGetRequest(String urlString) {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(clanConfig.getCLAN_API_TOKEN());
         HttpEntity<?> entity = new HttpEntity<>(headers);
-
-        String urlString = clanConfig.getCLAN_API()+"/clans"+"/"+ clanConfig.getCLAN_TAG()+"/currentwar/leaguegroup";
         URI uri = null;
         try {
             uri = new URI(urlString);
@@ -93,5 +153,21 @@ public class ClanWarLeagueController {
         ResponseEntity<String> response = restTemplate.exchange(uri, HttpMethod.GET, entity, String.class);
         
         return new JSONObject(response.getBody().toString());
+    }
+    
+    private List<String> getWarTagList() {
+        List<String> warTagList = new ArrayList<String>();
+        JSONObject response = getClanWarleagueTagList();
+        JSONArray rounds = response.getJSONArray("rounds");
+        for (int i = 0 ; i < rounds.length() ; i++) {
+            JSONArray warTags = rounds.getJSONObject(i).getJSONArray("warTags");
+            for (int j = 0 ; j < warTags.length() ; j++) {
+                String warTag = warTags.get(j).toString();
+                if (!"#0".equals(warTag)) {
+                    warTagList.add(warTag);
+                }
+            }
+        }
+        return warTagList;
     }
 }
