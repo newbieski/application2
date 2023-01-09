@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import com.application2.demo.web.dto.*;
 import com.application2.demo.service.memberlist.*;
 import com.application2.demo.service.capitalraidresult.*;
+import com.application2.demo.service.clanwarleaguewar.*;
 
 @RequiredArgsConstructor
 @Service
@@ -19,6 +20,7 @@ public class DashboardService {
     @Autowired
     private final MemberListService memberListService;
     private final CapitalRaidResultService capitalRaidResultService;
+    private final ClanWarLeagueWarService clanWarLeagueWarService;
     
     public List<DashboardResponse1Dto> createDashboard1() {
         List<DashboardResponse1Dto> response = new ArrayList<>();
@@ -39,5 +41,9 @@ public class DashboardService {
         
         
         return response;
+    }
+    
+    public List<String> getMonthlyWartag() {
+        return clanWarLeagueWarService.getMonthlyWarTag();
     }
 }

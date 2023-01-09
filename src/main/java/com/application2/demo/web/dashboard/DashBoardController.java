@@ -27,4 +27,9 @@ public class DashBoardController {
     public List<DashboardResponse1Dto> getMembers() {
         return dashboardService.createDashboard1();
     }
+    
+    @GetMapping("/dashboard/wartag")
+    public List<String> getWartag() {
+        return dashboardService.getMonthlyWartag();
+    }
 }

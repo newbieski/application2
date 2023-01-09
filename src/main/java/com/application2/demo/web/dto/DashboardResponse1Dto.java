@@ -14,17 +14,20 @@ public class DashboardResponse1Dto {
     private long capitalRaidAttackCount;
     private long clanwarlegueTotalAttackCount;
     private long clanwarlegueUsedAttackCount;
+    private long clanwarleagueStars;
     
     @Builder
     public DashboardResponse1Dto(String name,
                                 String tag,
                                 long capitalRaidAttackCount,
                                 long clanwarlegueTotalAttackCount,
-                                long clanwarlegueUsedAttackCount) {
+                                long clanwarlegueUsedAttackCount,
+                                long clanwarleagueStars) {
         this.name = name;
         this.tag = tag;
         this.capitalRaidAttackCount = capitalRaidAttackCount;
         this.clanwarlegueTotalAttackCount = clanwarlegueTotalAttackCount;
         this.clanwarlegueUsedAttackCount = clanwarlegueUsedAttackCount;
+        this.clanwarleagueStars = clanwarleagueStars;
     }
 }
