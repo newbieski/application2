@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class CapitalRaidResultDto {
+public class CapitalRaidResultSaveRequestDto {
     private String name;
     private String tag;
     private Long attackCount;
@@ -17,7 +17,7 @@ public class CapitalRaidResultDto {
     private LocalDateTime regTime;
 
     @Builder
-    CapitalRaidResultDto(String name,
+    CapitalRaidResultSaveRequestDto(String name,
                          String tag,
                          Long attackCount,
                          LocalDateTime startTime,

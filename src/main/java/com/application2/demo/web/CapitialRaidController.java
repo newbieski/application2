@@ -2,7 +2,7 @@ package com.application2.demo.web;
 
 import com.application2.demo.config.ClanConfig;
 import com.application2.demo.service.capitalraidresult.CapitalRaidResultService;
-import com.application2.demo.web.dto.CapitalRaidResultDto;
+import com.application2.demo.web.dto.CapitalRaidResultSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,7 +51,7 @@ public class CapitialRaidController {
         LocalDateTime endTime = LocalDateTime.parse(items.getJSONObject(0).get("endTime").toString(), formatter);
         for (int i = 0 ; i < members.length() ; i++) {
             JSONObject member = members.getJSONObject(i);
-            CapitalRaidResultDto capitalRaidResultDto = CapitalRaidResultDto.builder()
+            CapitalRaidResultSaveRequestDto capitalRaidResultSaveRequestDto = CapitalRaidResultSaveRequestDto.builder()
                     .name(member.get("name").toString())
                     .tag(member.get("tag").toString())
                     .attackCount(Long.valueOf(member.get("attacks").toString()))
@@ -59,7 +59,7 @@ public class CapitialRaidController {
                     .endTime(endTime)
                     .regTime(regTime)
                     .build();
-            Long id = capitalRaidResultService.save(capitalRaidResultDto);
+            Long id = capitalRaidResultService.save(capitalRaidResultSaveRequestDto);
 
             result.append(member.get("name"));
             result.append(" ");
