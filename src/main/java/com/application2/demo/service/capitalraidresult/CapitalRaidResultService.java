@@ -14,4 +14,6 @@ public class CapitalRaidResultService {
     public Long save(CapitalRaidResultDto capitalRaidResultDto) {
         return capitalRaidResultRepository.save(capitalRaidResultDto.toEntity()).getId();
     }
+    
+    
 }
