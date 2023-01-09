@@ -18,8 +18,8 @@ public class CapitalRaidResponseDto {
     public void add(String tag, long value) {
         map.put(tag, map.getOrDefault(tag, Long.valueOf(0)) + value);
     }
-    
-    public HashMap<String, Long> getMap() {
-        return this.map;
+
+    public long getAttackCount(String tag) {
+        return map.getOrDefault(tag, Long.valueOf(0));
     }
 }

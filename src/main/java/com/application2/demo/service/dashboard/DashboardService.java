@@ -28,17 +28,15 @@ public class DashboardService {
         CapitalRaidResponseDto capitalResponse = capitalRaidResultService.getCurrentMonthSummary();
         
         HashMap<String, DashboardResponse1Dto> map = new HashMap<String, DashboardResponse1Dto>();
-        HashMap<String, Long> capitalAttackCount = capitalResponse.getMap();
         for (int i = 0 ; i < memberList.size() ; i++) {
             MemberListResponseDto cur = memberList.get(i);
             String tag = cur.getTag();
             response.add(DashboardResponse1Dto.builder()
                                     .name(cur.getName())
                                     .tag(tag)
-                                    .capitalRaidAttackCount(capitalAttackCount.getOrDefault(tag, Long.valueOf(0)))
+                                    .capitalRaidAttackCount(capitalResponse.getAttackCount(tag))
                                     .build());
         }
-        
         
         return response;
     }
