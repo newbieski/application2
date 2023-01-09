@@ -15,6 +15,9 @@ public class ClanWarLeagueWar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column
+    private String warTag;
 
     @Column
     private String state;
@@ -44,7 +47,8 @@ public class ClanWarLeagueWar {
     private LocalDateTime regTime;
 
     @Builder
-    public ClanWarLeagueWar(String state, 
+    public ClanWarLeagueWar(String warTag,
+                            String state, 
                             Long teamSize, 
                             LocalDateTime startTime,
                             LocalDateTime endTime,
@@ -53,6 +57,7 @@ public class ClanWarLeagueWar {
                             String opponentTag,
                             String opponentName,
                             LocalDateTime regTime) {
+        this.warTag = warTag;
         this.state = state;
         this.teamSize = teamSize;
         this.startTime = startTime;

@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 
 public class ClanWarLeagueWarDto {
     
+    private String warTag;
     private String state;
     private Long teamSize;
     private LocalDateTime startTime;
@@ -23,7 +24,8 @@ public class ClanWarLeagueWarDto {
     private LocalDateTime regTime;
     
     @Builder
-    public ClanWarLeagueWarDto(String state, 
+    public ClanWarLeagueWarDto(String warTag,
+                            String state, 
                             Long teamSize, 
                             LocalDateTime startTime,
                             LocalDateTime endTime,
@@ -32,6 +34,7 @@ public class ClanWarLeagueWarDto {
                             String opponentTag,
                             String opponentName,
                             LocalDateTime regTime) {
+        this.warTag = warTag;
         this.state = state;
         this.teamSize = teamSize;
         this.startTime = startTime;
@@ -45,6 +48,7 @@ public class ClanWarLeagueWarDto {
     
     public ClanWarLeagueWar toEntity() {
         return ClanWarLeagueWar.builder()
+                .warTag(warTag)
                 .state(state)
                 .teamSize(teamSize)
                 .startTime(startTime)

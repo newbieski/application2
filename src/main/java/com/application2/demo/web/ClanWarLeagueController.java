@@ -81,6 +81,8 @@ public class ClanWarLeagueController {
         StringBuffer response = new StringBuffer();
         List<String> warTagList = getWarTagList();
         for (String warTag : warTagList) {
+            response.append(warTag);
+            response.append(" ");
             response.append(getClanWarLeagueWar(warTag));
             response.append("<br>");
         }
@@ -97,6 +99,7 @@ public class ClanWarLeagueController {
             LocalDateTime startTime = LocalDateTime.parse(war.get("startTime").toString(), formatter);
             LocalDateTime endTime = LocalDateTime.parse(war.get("endTime").toString(), formatter);
             ClanWarLeagueWarDto clanWarLeagueWarDto = ClanWarLeagueWarDto.builder()
+                                    .warTag(warTag)
                                     .state(war.get("state").toString())
                                     .teamSize(Long.valueOf(war.get("teamSize").toString()))
                                     .startTime(startTime)
