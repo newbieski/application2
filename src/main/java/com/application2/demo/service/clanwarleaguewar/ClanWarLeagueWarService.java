@@ -1,4 +1,4 @@
-package com.application2.demo.service.clanwarleague;
+package com.application2.demo.service.clanwarleaguewar;
 
 import com.application2.demo.domain.clanwarleaguewar.ClanWarLeagueWarRepository;
 import com.application2.demo.web.dto.ClanWarLeagueWarDto;

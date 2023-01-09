@@ -3,10 +3,14 @@ package com.application2.demo.web;
 import com.application2.demo.config.ClanConfig;
 import com.application2.demo.service.clanwarleagueattack.ClanWarLeagueAttackService;
 import com.application2.demo.service.clanwarleaguetaglist.ClanWarLeagueTagListService;
+import com.application2.demo.service.clanwarleaguewar.ClanWarLeagueWarService;
+import com.application2.demo.service.clanwarleaguewar.ClanWarLeagueWarClanSummaryService;
+
 import com.application2.demo.web.dto.ClanWarLeagueAttackDto;
 import com.application2.demo.web.dto.ClanWarLeagueTagListDto;
-import com.application2.demo.service.clanwarleague.ClanWarLeagueWarService;
 import com.application2.demo.web.dto.ClanWarLeagueWarDto;
+import com.application2.demo.web.dto.ClanWarLeagueWarClanSummaryDto;
+
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +44,9 @@ public class ClanWarLeagueController {
     @Autowired
     ClanConfig clanConfig;
     private final ClanWarLeagueTagListService clanWarLeagueTagListService;
-    private final ClanWarLeagueWarService clanWarLeagueWarService;
     private final ClanWarLeagueAttackService clanWarLeagueAttackService;
+    private final ClanWarLeagueWarService clanWarLeagueWarService;
+    private final ClanWarLeagueWarClanSummaryService clanWarLeagueWarClanSummaryService;
     
     @GetMapping("/clanwarleague/taglist")
     public String getTagList() {
@@ -144,8 +149,10 @@ public class ClanWarLeagueController {
 
         for (String warTag : warTagList) {
             JSONObject war = getClanWarLeagueWar(warTag);
-            JSONArray clanMembers = war.getJSONObject("clan").getJSONArray("members");
-            JSONArray opponentMembers = war.getJSONObject("opponent").getJSONArray("members");
+            JSONObject clanJson = war.getJSONObject("clan");
+            JSONObject opponentJson = war.getJSONObject("opponent");
+            JSONArray clanMembers = clanJson.getJSONArray("members");
+            JSONArray opponentMembers = opponentJson.getJSONArray("members");
             List<ClanWarLeagueAttackDto> clanDtoList = extractAttack(clanMembers, warTag, "clan", regTime);
             List<ClanWarLeagueAttackDto> opponentDtoList = extractAttack(opponentMembers, warTag, "opponent", regTime);
             for (ClanWarLeagueAttackDto dto : clanDtoList) {
@@ -154,9 +161,26 @@ public class ClanWarLeagueController {
             for (ClanWarLeagueAttackDto dto : opponentDtoList) {
                 clanWarLeagueAttackService.save(dto);
             }
+            
+            
+            clanWarLeagueWarClanSummaryService.save(extractSummary(clanJson, warTag, regTime));
+            clanWarLeagueWarClanSummaryService.save(extractSummary(opponentJson, warTag, regTime));
         }
         return "200";
     }
+    
+    private ClanWarLeagueWarClanSummaryDto extractSummary(JSONObject source, String warTag, LocalDateTime regTime) {
+        return ClanWarLeagueWarClanSummaryDto.builder()
+            .warTag(warTag)
+            .clanTag(source.getString("tag"))
+            .clanName(source.getString("name"))
+            .clanLevel(source.getLong("clanLevel"))
+            .attacks(source.getLong("attacks"))
+            .stars(source.getLong("stars"))
+            .regTime(regTime)
+            .build();
+    }
+    
 
     private List<ClanWarLeagueAttackDto> extractAttack(JSONArray source, String warTag, String opponent, LocalDateTime regTime) {
         List<ClanWarLeagueAttackDto> resDto = new ArrayList<>();
