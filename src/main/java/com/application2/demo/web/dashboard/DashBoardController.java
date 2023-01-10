@@ -22,7 +22,8 @@ public class DashBoardController {
     @Autowired
     ClanConfig clanConfig;
     private final DashboardService dashboardService;
-    
+
+
     @GetMapping("/dashboard")
     public List<DashboardResponse1Dto> getMembers() {
         return dashboardService.createDashboard1();

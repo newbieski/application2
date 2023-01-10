@@ -1,0 +1,30 @@
+{{>layout/header}}
+    <h1>Dashboard Ver.1</h1>
+    <div class="col-md-12">
+            <br>
+            <!-- 목록 출력 영역 -->
+            <table class="table table-horizontal table-bordered">
+                        <thead class="thead-strong">
+                        <tr>
+                            <th>ID</th>
+                            <th>습격전 공격</th>
+                            <th>클전리그 공격</th>
+                            <th>클전리그 참여</th>
+                            <th>클전리그 기여한 별</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+                        {{#dashboard1}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{capitalRaidAttackCount}}</td>
+                                <td>{{clanwarlegueUsedAttackCount}}</td>
+                                <td>{{clanwarlegueTotalAttackCount}}</td>
+                                <td>{{clanwarleagueStars}}</td>
+                            </tr>
+                        {{/dashboard1}}
+                        </tbody>
+                    </table>
+    </div>
+
+{{>layout/footer}}
