@@ -6,10 +6,10 @@ import com.application2.demo.service.clanwarleaguetaglist.ClanWarLeagueTagListSe
 import com.application2.demo.service.clanwarleaguewar.ClanWarLeagueWarService;
 import com.application2.demo.service.clanwarleaguewar.ClanWarLeagueWarClanSummaryService;
 
-import com.application2.demo.web.dto.ClanWarLeagueAttackDto;
-import com.application2.demo.web.dto.ClanWarLeagueTagListDto;
-import com.application2.demo.web.dto.ClanWarLeagueWarDto;
-import com.application2.demo.web.dto.ClanWarLeagueWarClanSummaryDto;
+import com.application2.demo.web.dto.ClanWarLeagueAttackSaveRequestDto;
+import com.application2.demo.web.dto.ClanWarLeagueTagListSaveRequestDto;
+import com.application2.demo.web.dto.ClanWarLeagueWarSaveRequestDto;
+import com.application2.demo.web.dto.ClanWarLeagueWarClanSummarySaveRequestDto;
 
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -68,12 +68,12 @@ public class ClanWarLeagueController {
                 String warTag = warTags.get(j).toString();
                 logger.info(warTag);
                 if (!"#0".equals(warTag)) {
-                    ClanWarLeagueTagListDto clanWarLeagueTagListDto = ClanWarLeagueTagListDto.builder()
+                    ClanWarLeagueTagListSaveRequestDto clanWarLeagueTagListSaveRequestDto = ClanWarLeagueTagListSaveRequestDto.builder()
                         .tag(warTag)
                         .clanWarLeagueTime(clanWarLeagueTime)
                         .regTime(regTime)
                         .build();
-                    clanWarLeagueTagListService.save(clanWarLeagueTagListDto);
+                    clanWarLeagueTagListService.save(clanWarLeagueTagListSaveRequestDto);
                 }
             }
         }
@@ -103,7 +103,7 @@ public class ClanWarLeagueController {
             JSONObject war = getClanWarLeagueWar(warTag);
             LocalDateTime startTime = LocalDateTime.parse(war.get("startTime").toString(), formatter);
             LocalDateTime endTime = LocalDateTime.parse(war.get("endTime").toString(), formatter);
-            ClanWarLeagueWarDto clanWarLeagueWarDto = ClanWarLeagueWarDto.builder()
+            ClanWarLeagueWarSaveRequestDto clanWarLeagueWarDto = ClanWarLeagueWarSaveRequestDto.builder()
                                     .warTag(warTag)
                                     .state(war.get("state").toString())
                                     .teamSize(Long.valueOf(war.get("teamSize").toString()))
@@ -130,12 +130,12 @@ public class ClanWarLeagueController {
             JSONObject war = getClanWarLeagueWar(warTag);
             JSONArray clanMembers = war.getJSONObject("clan").getJSONArray("members");
             JSONArray opponentMembers = war.getJSONObject("opponent").getJSONArray("members");
-            List<ClanWarLeagueAttackDto> clanDtoList = extractAttack(clanMembers, warTag, "clan", regTime);
-            List<ClanWarLeagueAttackDto> opponentDtoList = extractAttack(opponentMembers, warTag, "opponent", regTime);
-            for (ClanWarLeagueAttackDto dto : clanDtoList) {
+            List<ClanWarLeagueAttackSaveRequestDto> clanDtoList = extractAttack(clanMembers, warTag, "clan", regTime);
+            List<ClanWarLeagueAttackSaveRequestDto> opponentDtoList = extractAttack(opponentMembers, warTag, "opponent", regTime);
+            for (ClanWarLeagueAttackSaveRequestDto dto : clanDtoList) {
                 sb.append(dto.toString()).append("<br>");
             }
-            for (ClanWarLeagueAttackDto dto : opponentDtoList) {
+            for (ClanWarLeagueAttackSaveRequestDto dto : opponentDtoList) {
                 sb.append(dto.toString()).append("<br>");
             }
         }
@@ -153,12 +153,12 @@ public class ClanWarLeagueController {
             JSONObject opponentJson = war.getJSONObject("opponent");
             JSONArray clanMembers = clanJson.getJSONArray("members");
             JSONArray opponentMembers = opponentJson.getJSONArray("members");
-            List<ClanWarLeagueAttackDto> clanDtoList = extractAttack(clanMembers, warTag, "clan", regTime);
-            List<ClanWarLeagueAttackDto> opponentDtoList = extractAttack(opponentMembers, warTag, "opponent", regTime);
-            for (ClanWarLeagueAttackDto dto : clanDtoList) {
+            List<ClanWarLeagueAttackSaveRequestDto> clanDtoList = extractAttack(clanMembers, warTag, "clan", regTime);
+            List<ClanWarLeagueAttackSaveRequestDto> opponentDtoList = extractAttack(opponentMembers, warTag, "opponent", regTime);
+            for (ClanWarLeagueAttackSaveRequestDto dto : clanDtoList) {
                 clanWarLeagueAttackService.save(dto);
             }
-            for (ClanWarLeagueAttackDto dto : opponentDtoList) {
+            for (ClanWarLeagueAttackSaveRequestDto dto : opponentDtoList) {
                 clanWarLeagueAttackService.save(dto);
             }
             
@@ -169,8 +169,8 @@ public class ClanWarLeagueController {
         return "200";
     }
     
-    private ClanWarLeagueWarClanSummaryDto extractSummary(JSONObject source, String warTag, LocalDateTime regTime) {
-        return ClanWarLeagueWarClanSummaryDto.builder()
+    private ClanWarLeagueWarClanSummarySaveRequestDto extractSummary(JSONObject source, String warTag, LocalDateTime regTime) {
+        return ClanWarLeagueWarClanSummarySaveRequestDto.builder()
             .warTag(warTag)
             .clanTag(source.getString("tag"))
             .clanName(source.getString("name"))
@@ -182,8 +182,8 @@ public class ClanWarLeagueController {
     }
     
 
-    private List<ClanWarLeagueAttackDto> extractAttack(JSONArray source, String warTag, String opponent, LocalDateTime regTime) {
-        List<ClanWarLeagueAttackDto> resDto = new ArrayList<>();
+    private List<ClanWarLeagueAttackSaveRequestDto> extractAttack(JSONArray source, String warTag, String opponent, LocalDateTime regTime) {
+        List<ClanWarLeagueAttackSaveRequestDto> resDto = new ArrayList<>();
         for (int i = 0 ; i < source.length() ; i++) {
             JSONObject member = source.getJSONObject(i);
             String attackerTag = member.getString("tag");
@@ -199,7 +199,7 @@ public class ClanWarLeagueController {
                 destructionPercentage = attack.getDouble("destructionPercentage");
             } catch (JSONException e) {
             }
-            resDto.add(ClanWarLeagueAttackDto.builder()
+            resDto.add(ClanWarLeagueAttackSaveRequestDto.builder()
                     .warTag(warTag)
                     .opponent(opponent)
                     .attackerTag(attackerTag)

@@ -1,7 +1,7 @@
 package com.application2.demo.service.clanwarleaguewar;
 
 import com.application2.demo.domain.clanwarleaguewar.*;
-import com.application2.demo.web.dto.ClanWarLeagueWarDto;
+import com.application2.demo.web.dto.ClanWarLeagueWarSaveRequestDto;
 import com.application2.demo.config.ClanConfig;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class ClanWarLeagueWarService {
     private final ClanConfig clanConfig;
 
     @Transactional
-    public Long save(ClanWarLeagueWarDto requestDto) {
+    public Long save(ClanWarLeagueWarSaveRequestDto requestDto) {
         return clanWarLeagueWarRepository.save(requestDto.toEntity()).getId();
     }
     
