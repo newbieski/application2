@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 
-public class ClanWarLeagueWarDto {
+public class ClanWarLeagueWarSaveRequestDto {
     
     private String warTag;
     private String state;
@@ -24,16 +24,16 @@ public class ClanWarLeagueWarDto {
     private LocalDateTime regTime;
     
     @Builder
-    public ClanWarLeagueWarDto(String warTag,
-                            String state, 
-                            Long teamSize, 
-                            LocalDateTime startTime,
-                            LocalDateTime endTime,
-                            String clanTag,
-                            String clanName,
-                            String opponentTag,
-                            String opponentName,
-                            LocalDateTime regTime) {
+    public ClanWarLeagueWarSaveRequestDto(String warTag,
+                                          String state,
+                                          Long teamSize,
+                                          LocalDateTime startTime,
+                                          LocalDateTime endTime,
+                                          String clanTag,
+                                          String clanName,
+                                          String opponentTag,
+                                          String opponentName,
+                                          LocalDateTime regTime) {
         this.warTag = warTag;
         this.state = state;
         this.teamSize = teamSize;

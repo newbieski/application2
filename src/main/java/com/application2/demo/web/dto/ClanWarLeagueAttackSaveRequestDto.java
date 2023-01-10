@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class ClanWarLeagueAttackDto {
+public class ClanWarLeagueAttackSaveRequestDto {
     private String warTag;
     private String opponent;
     private String attackerTag;
@@ -21,15 +21,15 @@ public class ClanWarLeagueAttackDto {
     private LocalDateTime regTime;
 
     @Builder
-    public ClanWarLeagueAttackDto(String warTag,
-                                  String opponent,
-                                  String attackerTag,
-                                  String attackerName,
-                                  Long attackerMapPosition,
-                                  String defenderTag,
-                                  Long stars,
-                                  double destructionPercentage,
-                                  LocalDateTime regTime) {
+    public ClanWarLeagueAttackSaveRequestDto(String warTag,
+                                             String opponent,
+                                             String attackerTag,
+                                             String attackerName,
+                                             Long attackerMapPosition,
+                                             String defenderTag,
+                                             Long stars,
+                                             double destructionPercentage,
+                                             LocalDateTime regTime) {
         this.warTag = warTag;
         this.opponent = opponent;
         this.attackerTag = attackerTag;

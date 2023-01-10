@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 
-public class ClanWarLeagueWarClanSummaryDto {
+public class ClanWarLeagueWarClanSummarySaveRequestDto {
     private String warTag;
     private String clanTag;
     private String clanName;
@@ -20,13 +20,13 @@ public class ClanWarLeagueWarClanSummaryDto {
     private LocalDateTime regTime;
     
     @Builder
-    public ClanWarLeagueWarClanSummaryDto(String warTag,
-                                    String clanTag,
-                                    String clanName,
-                                    long clanLevel,
-                                    long attacks,
-                                    long stars,
-                                    LocalDateTime regTime) {
+    public ClanWarLeagueWarClanSummarySaveRequestDto(String warTag,
+                                                     String clanTag,
+                                                     String clanName,
+                                                     long clanLevel,
+                                                     long attacks,
+                                                     long stars,
+                                                     LocalDateTime regTime) {
         this.warTag = warTag;
         this.clanTag = clanTag;
         this.clanName = clanName;

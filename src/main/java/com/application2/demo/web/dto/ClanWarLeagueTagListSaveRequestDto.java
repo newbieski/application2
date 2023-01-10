@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
-public class ClanWarLeagueTagListDto {
+public class ClanWarLeagueTagListSaveRequestDto {
     private String tag;
     private LocalDateTime clanWarLeagueTime;
     private LocalDateTime regTime;
     
     @Builder
-    public ClanWarLeagueTagListDto(String tag, LocalDateTime clanWarLeagueTime, LocalDateTime regTime) {
+    public ClanWarLeagueTagListSaveRequestDto(String tag, LocalDateTime clanWarLeagueTime, LocalDateTime regTime) {
         this.tag = tag;
         this.clanWarLeagueTime = clanWarLeagueTime;
         this.regTime = regTime;
