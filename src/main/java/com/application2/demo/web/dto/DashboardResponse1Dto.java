@@ -15,19 +15,25 @@ public class DashboardResponse1Dto {
     private long clanwarlegueTotalAttackCount;
     private long clanwarlegueUsedAttackCount;
     private long clanwarleagueStars;
-    
+    private long clanwarUsedAttackCount;
+    private long clanwarStars;
+
     @Builder
     public DashboardResponse1Dto(String name,
-                                String tag,
-                                long capitalRaidAttackCount,
-                                long clanwarlegueTotalAttackCount,
-                                long clanwarlegueUsedAttackCount,
-                                long clanwarleagueStars) {
+                                 String tag,
+                                 long capitalRaidAttackCount,
+                                 long clanwarlegueTotalAttackCount,
+                                 long clanwarlegueUsedAttackCount,
+                                 long clanwarleagueStars,
+                                 long clanwarUsedAttackCount,
+                                 long clanwarStars) {
         this.name = name;
         this.tag = tag;
         this.capitalRaidAttackCount = capitalRaidAttackCount;
         this.clanwarlegueTotalAttackCount = clanwarlegueTotalAttackCount;
         this.clanwarlegueUsedAttackCount = clanwarlegueUsedAttackCount;
         this.clanwarleagueStars = clanwarleagueStars;
+        this.clanwarUsedAttackCount = clanwarUsedAttackCount;
+        this.clanwarStars = clanwarStars;
     }
 }

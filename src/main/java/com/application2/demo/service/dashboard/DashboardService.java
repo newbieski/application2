@@ -1,5 +1,6 @@
 package com.application2.demo.service.dashboard;
 
+import com.application2.demo.service.clanwar.ClanWarService;
 import com.application2.demo.service.clanwarleagueattack.ClanWarLeagueAttackService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ public class DashboardService {
     private final CapitalRaidResultService capitalRaidResultService;
     private final ClanWarLeagueWarService clanWarLeagueWarService;
     private final ClanWarLeagueAttackService clanWarLeagueAttackService;
+    private final ClanWarService clanWarService;
 
     private Logger logger = LoggerFactory.getLogger(DashboardService.class);
 
@@ -35,6 +37,7 @@ public class DashboardService {
         List<MemberListResponseDto> memberList = memberListService.readLatest();
         CapitalRaidResponseDto capitalResponse = capitalRaidResultService.getCurrentMonthSummary();
         ClanWarLeagueAttackResonseDto clanwarleagueResponse = clanWarLeagueAttackService.readLatest(clanWarLeagueWarService.getMonthlyWarTag());
+        ClanWarAttackResponseDto clanwarAttackResponse = clanWarService.readClanWarAttackCurrentMonth();
         
         HashMap<String, DashboardResponse1Dto> map = new HashMap<String, DashboardResponse1Dto>();
         for (int i = 0 ; i < memberList.size() ; i++) {
@@ -47,6 +50,8 @@ public class DashboardService {
                             .clanwarlegueUsedAttackCount(clanwarleagueResponse.getUsed(tag))
                             .clanwarlegueTotalAttackCount(clanwarleagueResponse.getTotal(tag))
                             .clanwarleagueStars(clanwarleagueResponse.getStars(tag))
+                            .clanwarUsedAttackCount(clanwarAttackResponse.getUsed(tag))
+                            .clanwarStars(clanwarAttackResponse.getStars(tag))
                             .build());
         }
         
