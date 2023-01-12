@@ -16,10 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -67,16 +64,25 @@ public class ClanWarService {
                 round = clanWarSummary.getEndTime();
                 regTime = clanWarSummary.getRegTime();
             }
-            if (clanWarSummary.getRegTime().compareTo(regTime) == 0) {
+            Set<String> set = new HashSet<String>();
+            if (clanWarSummary.getRegTime().compareTo(regTime) == 0 && !clanWarSummary.getState().equals("preparation")) {
                 long clanwarId = clanWarSummary.getId();
                 List<ClanWarAttack> attacks = clanWarAttackRepository.findAllByclanwarId(clanwarId);
                 for (ClanWarAttack attack : attacks) {
                     String tag = attack.getTag();
                     long stars = attack.getStars();
-                    responseDto.addUsed(tag, 1);
-                    responseDto.addStars(tag, stars);
-                    //responseDto.addTotal();
+                    String dependerTag = attack.getDefenderTag();
+                    if (dependerTag != null) {
+                        responseDto.addUsed(tag, 1);
+                        responseDto.addStars(tag, stars);
+                    }
+                    set.add(tag);
                 }
+            }
+            Iterator<String> it = set.iterator();
+            while (it.hasNext()) {
+                String tag = it.next();
+                responseDto.addTotal(tag, 2);
             }
         }
 
@@ -89,8 +95,10 @@ public class ClanWarService {
         List<CocApiClanWarAttack> cocApiClanWarAttack = cocCurrentWar.getClanWarAttack();
 
         long clanwarId = clanWarSummaryRepository.save(cocApiClanWarSummary.toEntity()).getId();
-        for (CocApiClanWarAttack attack : cocApiClanWarAttack) {
-            clanWarAttackRepository.save(attack.toEntity(clanwarId));
+        if (!cocApiClanWarSummary.getState().equals("preparation")) {
+            for (CocApiClanWarAttack attack : cocApiClanWarAttack) {
+                clanWarAttackRepository.save(attack.toEntity(clanwarId));
+            }
         }
     }
 }

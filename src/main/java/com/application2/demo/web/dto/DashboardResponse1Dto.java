@@ -15,6 +15,7 @@ public class DashboardResponse1Dto {
     private long clanwarlegueTotalAttackCount;
     private long clanwarlegueUsedAttackCount;
     private long clanwarleagueStars;
+    private long clanwarTotalAttackCount;
     private long clanwarUsedAttackCount;
     private long clanwarStars;
 
@@ -25,6 +26,7 @@ public class DashboardResponse1Dto {
                                  long clanwarlegueTotalAttackCount,
                                  long clanwarlegueUsedAttackCount,
                                  long clanwarleagueStars,
+                                 long clanwarTotalAttackCount,
                                  long clanwarUsedAttackCount,
                                  long clanwarStars) {
         this.name = name;
@@ -33,6 +35,7 @@ public class DashboardResponse1Dto {
         this.clanwarlegueTotalAttackCount = clanwarlegueTotalAttackCount;
         this.clanwarlegueUsedAttackCount = clanwarlegueUsedAttackCount;
         this.clanwarleagueStars = clanwarleagueStars;
+        this.clanwarTotalAttackCount = clanwarTotalAttackCount;
         this.clanwarUsedAttackCount = clanwarUsedAttackCount;
         this.clanwarStars = clanwarStars;
     }

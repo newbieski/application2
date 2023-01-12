@@ -51,6 +51,7 @@ public class DashboardService {
                             .clanwarlegueTotalAttackCount(clanwarleagueResponse.getTotal(tag))
                             .clanwarleagueStars(clanwarleagueResponse.getStars(tag))
                             .clanwarUsedAttackCount(clanwarAttackResponse.getUsed(tag))
+                            .clanwarTotalAttackCount(clanwarAttackResponse.getTotal(tag))
                             .clanwarStars(clanwarAttackResponse.getStars(tag))
                             .build());
         }
