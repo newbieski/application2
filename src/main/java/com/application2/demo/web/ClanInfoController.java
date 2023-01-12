@@ -72,7 +72,7 @@ public class ClanInfoController {
             result.append("<br>");
 
         }
-        return result.toString();
+        return "200";
     }
 
     private JSONObject getClansMembers() {

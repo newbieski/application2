@@ -68,7 +68,7 @@ public class CapitialRaidController {
             result.append(id);
             result.append("<br>");
         }
-        return result.toString();
+        return "200";
     }
 
     @GetMapping("/capitalraid")
