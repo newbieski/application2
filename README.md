@@ -5,6 +5,7 @@
 > - JPA
 > - postgreDB
 > - AWS
+> - API G/W (현재는 proxy 역할만 수행)
 
 ## 특징
 > - 현황과 통계를 보여주는 것이 목표임
@@ -32,3 +33,8 @@
 > - 일감을 잘 나눠주는 고민이 필요함
 > - 이런 유형의 데이터 + DB 처리는 어떻게 하나
 > - JPA를 이렇게 쓰는게 맞나?
+> - REST API로 데이터를 가져오는 모듈은 service일까 repository 일까
+> - service에서 일을 이렇게 많이 해도 될까?
+
+## URL
+https://hh3m0ctbab.execute-api.ap-northeast-1.amazonaws.com
