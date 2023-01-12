@@ -29,6 +29,10 @@ public class ClanWarLeagueWarService {
         LocalDate end1 = LocalDate.now(ZoneOffset.UTC).withDayOfMonth(LocalDate.now().lengthOfMonth());
         LocalDateTime end = LocalDateTime.parse(end1.toString()+"T23:59:59");
         List<ClanWarLeagueWar> result = clanWarLeagueWarRepository.findAllByEndTimeBetween(start, end);
+        List<String> response = new ArrayList<>();
+        if (result.isEmpty()) {
+            return response;
+        }
         Collections.sort(result, new Comparator<ClanWarLeagueWar>() {
            @Override
            public int compare(ClanWarLeagueWar o1, ClanWarLeagueWar o2) {
@@ -36,7 +40,7 @@ public class ClanWarLeagueWarService {
            }
         });
         String mytag = "#"+clanConfig.getCLAN_TAG().substring(3).toUpperCase();
-        List<String> response = new ArrayList<>();
+
         LocalDateTime base = result.get(0).getRegTime();
         for (int i = 0 ; i < result.size() ; i++) {
             ClanWarLeagueWar cur = result.get(i);

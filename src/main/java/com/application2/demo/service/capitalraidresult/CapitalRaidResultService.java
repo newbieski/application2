@@ -29,6 +29,10 @@ public class CapitalRaidResultService {
         LocalDateTime end = LocalDateTime.parse(end1.toString()+"T23:59:59");
         
         List<CapitalRaidResult> result = capitalRaidResultRepository.findAllByEndTimeBetween(start, end);
+
+        if (result.isEmpty()) {
+            return resDto;
+        }
         Collections.sort(result, new Comparator<CapitalRaidResult>() {
             @Override
             public int compare(CapitalRaidResult o1, CapitalRaidResult o2) {

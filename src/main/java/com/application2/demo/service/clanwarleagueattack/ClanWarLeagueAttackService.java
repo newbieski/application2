@@ -30,6 +30,9 @@ public class ClanWarLeagueAttackService {
         ClanWarLeagueAttackResonseDto responseDto = new ClanWarLeagueAttackResonseDto();
         for (String warTag : warTags) {
             List<ClanWarLeagueAttack> res =  clanWarLeagueAttackRepository.findAllByWarTag(warTag);
+            if (res.isEmpty()) {
+                continue;
+            }
             Collections.sort(res, new Comparator<ClanWarLeagueAttack>() {
                 @Override
                 public int compare(ClanWarLeagueAttack o1, ClanWarLeagueAttack o2) {
