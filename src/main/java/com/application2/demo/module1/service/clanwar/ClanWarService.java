@@ -9,8 +9,6 @@ import com.application2.demo.module1.domain.cocapi.clanwar.CocApiClanWarSummary;
 import com.application2.demo.module1.domain.cocapi.repository.CocCurrentWar;
 import com.application2.demo.module1.web.dto.ClanWarAttackResponseDto;
 import com.application2.demo.module2.code.ApiCode;
-import com.application2.demo.module2.domain.ApiEvent;
-import com.application2.demo.module2.domain.ApiEventRepository;
 import com.application2.demo.module2.service.ApiEventService;
 import com.application2.demo.module2.service.dto.ApiEventSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class ClanWarService {
-    private Logger logger = LoggerFactory.getLogger(ClanWarService.class);
+    private final Logger logger = LoggerFactory.getLogger(ClanWarService.class);
 
     private final CocCurrentWar cocCurrentWar;
     private final ClanWarSummaryRepository clanWarSummaryRepository;
@@ -115,10 +113,5 @@ public class ClanWarService {
                 .regTime(LocalDateTime.now(ZoneOffset.UTC))
                 .build();
         apiEventService.saveApiEvent(dto);
-    }
-
-    public LocalDateTime subtract_min(LocalDateTime param, long min) {
-        long ms = param.toInstant(ZoneOffset.UTC).toEpochMilli() - min * 60 * 1000;
-        return LocalDateTime.ofInstant(Instant.ofEpochMilli(ms), ZoneOffset.UTC);
     }
 }
