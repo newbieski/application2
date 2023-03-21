@@ -8,15 +8,20 @@ import com.application2.demo.module1.domain.cocapi.clanwar.CocApiClanWarAttack;
 import com.application2.demo.module1.domain.cocapi.clanwar.CocApiClanWarSummary;
 import com.application2.demo.module1.domain.cocapi.repository.CocCurrentWar;
 import com.application2.demo.module1.web.dto.ClanWarAttackResponseDto;
+import com.application2.demo.module2.code.ApiCode;
+import com.application2.demo.module2.domain.ApiEvent;
+import com.application2.demo.module2.domain.ApiEventRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.*;
+
 
 @RequiredArgsConstructor
 @Service
@@ -27,9 +32,10 @@ public class ClanWarService {
     private final ClanWarSummaryRepository clanWarSummaryRepository;
     private final ClanWarAttackRepository clanWarAttackRepository;
 
+    private final ApiEventRepository apiEventRepository;
+
     public List<CocApiClanWarAttack> readClanWarAttack() {
         cocCurrentWar.load();
-        CocApiClanWarSummary cocApiClanWarSummary = cocCurrentWar.getClanWarSummary();
         List<CocApiClanWarAttack> cocApiClanWarAttack = cocCurrentWar.getClanWarAttack();
         return cocApiClanWarAttack;
     }
@@ -37,7 +43,6 @@ public class ClanWarService {
     public CocApiClanWarSummary readClanWarSummary() {
         cocCurrentWar.load();
         CocApiClanWarSummary cocApiClanWarSummary = cocCurrentWar.getClanWarSummary();
-        List<CocApiClanWarAttack> cocApiClanWarAttack = cocCurrentWar.getClanWarAttack();
         return cocApiClanWarSummary;
     }
 
@@ -100,5 +105,23 @@ public class ClanWarService {
                 clanWarAttackRepository.save(attack.toEntity(clanwarId));
             }
         }
+        LocalDateTime realEvent = cocApiClanWarSummary.getEndTime().minusMinutes(5);
+        ApiEvent apiEvent = ApiEvent.builder()
+                .eventTime(realEvent)
+                .eventCode(ApiCode.CLANWAR_SUMMARY)
+                .regTime(LocalDateTime.now(ZoneOffset.UTC))
+                .state(cocApiClanWarSummary.getState())
+                .build();
+        logger.info(String.valueOf(apiEvent.getEventTime()));
+        logger.info(String.valueOf(apiEvent.getEventCode()));
+        logger.info(String.valueOf(apiEvent.getState()));
+        if (apiEvent.isValid() && apiEventRepository.findAllByEventTimeAndEventCode(realEvent, ApiCode.CLANWAR_SUMMARY).isEmpty()) {
+            apiEventRepository.save(apiEvent);
+        }
+    }
+
+    public LocalDateTime subtract_min(LocalDateTime param, long min) {
+        long ms = param.toInstant(ZoneOffset.UTC).toEpochMilli() - min * 60 * 1000;
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(ms), ZoneOffset.UTC);
     }
 }
