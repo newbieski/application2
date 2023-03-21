@@ -1,5 +1,6 @@
 package com.application2.demo.module2.domain;
 
+import com.application2.demo.module2.code.ApiCode;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,11 +53,14 @@ public class ApiEvent {
     }
 
     private boolean isValidState() {
-        String[] validState = {"preparation", "war", "inWar", "ended"};
-        for (String target : validState) {
-            if (target.equals(state)) {
-                return true;
+        if (eventCode == ApiCode.CLANWAR_SUMMARY) {
+            String[] validState = {"preparation", "war", "inWar", "warEnded"};
+            for (String target : validState) {
+                if (target.equals(state)) {
+                    return true;
+                }
             }
+            return false;
         }
         return false;
     }

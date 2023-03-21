@@ -32,14 +32,20 @@ public class ApiEventHistory {
     private String event;
 
     @Column
+    private long resultCode;
+
+    @Column
     private LocalDateTime regTime;
+
 
     @Builder
     public ApiEventHistory(LocalDateTime eventTime,
                     String event,
+                    long resultCode,
                     LocalDateTime regTime) {
         this.eventTime = eventTime;
         this.event = event;
+        this.resultCode = resultCode;
         this.regTime = regTime;
     }
 }

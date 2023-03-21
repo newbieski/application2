@@ -11,6 +11,8 @@ import com.application2.demo.module1.web.dto.ClanWarAttackResponseDto;
 import com.application2.demo.module2.code.ApiCode;
 import com.application2.demo.module2.domain.ApiEvent;
 import com.application2.demo.module2.domain.ApiEventRepository;
+import com.application2.demo.module2.service.ApiEventService;
+import com.application2.demo.module2.service.dto.ApiEventSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +34,7 @@ public class ClanWarService {
     private final ClanWarSummaryRepository clanWarSummaryRepository;
     private final ClanWarAttackRepository clanWarAttackRepository;
 
-    private final ApiEventRepository apiEventRepository;
+    private final ApiEventService apiEventService;
 
     public List<CocApiClanWarAttack> readClanWarAttack() {
         cocCurrentWar.load();
@@ -105,19 +107,14 @@ public class ClanWarService {
                 clanWarAttackRepository.save(attack.toEntity(clanwarId));
             }
         }
-        LocalDateTime realEvent = cocApiClanWarSummary.getEndTime().minusMinutes(5);
-        ApiEvent apiEvent = ApiEvent.builder()
-                .eventTime(realEvent)
+
+        ApiEventSaveRequestDto dto = ApiEventSaveRequestDto.builder()
+                .eventTime(cocApiClanWarSummary.getEndTime().minusMinutes(5))
                 .eventCode(ApiCode.CLANWAR_SUMMARY)
-                .regTime(LocalDateTime.now(ZoneOffset.UTC))
                 .state(cocApiClanWarSummary.getState())
+                .regTime(LocalDateTime.now(ZoneOffset.UTC))
                 .build();
-        logger.info(String.valueOf(apiEvent.getEventTime()));
-        logger.info(String.valueOf(apiEvent.getEventCode()));
-        logger.info(String.valueOf(apiEvent.getState()));
-        if (apiEvent.isValid() && apiEventRepository.findAllByEventTimeAndEventCode(realEvent, ApiCode.CLANWAR_SUMMARY).isEmpty()) {
-            apiEventRepository.save(apiEvent);
-        }
+        apiEventService.saveApiEvent(dto);
     }
 
     public LocalDateTime subtract_min(LocalDateTime param, long min) {
