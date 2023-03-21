@@ -1,12 +1,17 @@
 package com.application2.demo.module1.service.capitalraidresult;
-import com.application2.demo.module1.domain.capitalraidresult.*;
 import com.application2.demo.module1.domain.capitalraidresult.CapitalRaidResult;
 import com.application2.demo.module1.domain.capitalraidresult.CapitalRaidResultRepository;
-import com.application2.demo.module1.web.dto.CapitalRaidResultSaveRequestDto;
+import com.application2.demo.module1.domain.cocapi.capitalraid.CocApiCapitalRaid;
+import com.application2.demo.module1.domain.cocapi.capitalraid.CocApiCapitalRaidSummary;
+import com.application2.demo.module1.domain.cocapi.repository.CocCapitalRaid;
 import com.application2.demo.module1.web.dto.CapitalRaidResponseDto;
+import com.application2.demo.module2.code.ApiCode;
+import com.application2.demo.module2.service.ApiEventService;
+import com.application2.demo.module2.service.dto.ApiEventSaveRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.time.LocalDateTime;
@@ -17,11 +22,25 @@ import java.time.ZoneOffset;
 @RequiredArgsConstructor
 @Service
 public class CapitalRaidResultService {
+    private final Logger logger = LoggerFactory.getLogger(CapitalRaidResultService.class);
+    private final CocCapitalRaid cocCapitalRaid;
     private final CapitalRaidResultRepository capitalRaidResultRepository;
 
-    @Transactional
-    public Long save(CapitalRaidResultSaveRequestDto CapitalRaidResultSaveRequestDto) {
-        return capitalRaidResultRepository.save(CapitalRaidResultSaveRequestDto.toEntity()).getId();
+    private final ApiEventService apiEventService;
+
+    public void saveCapitalRaid() {
+        cocCapitalRaid.load();
+        CocApiCapitalRaidSummary summary = cocCapitalRaid.getCapitalRaidSummary();
+        List<CocApiCapitalRaid> result = cocCapitalRaid.getCapitalRaid();
+        for (CocApiCapitalRaid val : result) {
+            capitalRaidResultRepository.save(val.toEntity());
+        }
+        apiEventService.saveApiEvent(ApiEventSaveRequestDto.builder()
+                        .eventTime(summary.getEndTime().minusMinutes(5))
+                        .eventCode(ApiCode.CAPITALRAID_RESULT)
+                        .state(summary.getState())
+                        .regTime(LocalDateTime.now(ZoneOffset.UTC))
+                        .build());
     }
     
     public CapitalRaidResponseDto getCurrentMonthSummary() {

@@ -48,6 +48,16 @@ public class ConsumeEventService {
                                                             .build());
                 apiEventRepository.delete(apiEvent);
             }
+            else if (apiEvent.getEventCode() == ApiCode.CAPITALRAID_RESULT) {
+                capitalRaidResultService.saveCapitalRaid();
+                apiEventHistoryService.saveApiEventHistory(ApiEventHistorySaveRequestDto.builder()
+                        .eventTime(apiEvent.getEventTime())
+                        .event("capitalRaidResultService.saveCapitalRaid()")
+                        .resultCode(0)
+                        .regTime(LocalDateTime.now(ZoneOffset.UTC))
+                        .build());
+                apiEventRepository.delete(apiEvent);
+            }
         }
     }
 }

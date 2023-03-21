@@ -62,6 +62,10 @@ public class ApiEvent {
             }
             return false;
         }
+        else if (eventCode == ApiCode.CAPITALRAID_RESULT) {
+            String[] validState = {"ended"};
+            return true;
+        }
         return false;
     }
 }
