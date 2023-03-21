@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class ClanWarBatchService {
-    Logger logger = LoggerFactory.getLogger(ClanWarBatchService.class);
+    private final Logger logger = LoggerFactory.getLogger(ClanWarBatchService.class);
     private final ClanWarService clanWarService;
     @Scheduled(cron = "0 0 0/12 * * *")
     public void PollingClanWar() {
