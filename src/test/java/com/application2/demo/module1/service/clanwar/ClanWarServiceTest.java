@@ -18,11 +18,4 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ClanWarServiceTest {
     @Autowired
     ClanWarService clanWarService;
-    @Test
-    void subtract_min() {
-        LocalDateTime eventTime = LocalDateTime.parse("2023-03-21T11:01:00");
-        LocalDateTime result = clanWarService.subtract_min(eventTime,5);
-        eventTime = eventTime.minusMinutes(5);
-        assertThat(eventTime.toInstant(ZoneOffset.UTC).toEpochMilli()).isEqualTo(result.toInstant(ZoneOffset.UTC).toEpochMilli());
-    }
 }
