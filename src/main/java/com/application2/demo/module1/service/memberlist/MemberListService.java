@@ -19,6 +19,10 @@ public class MemberListService {
     public Long save(MemberListSaveRequestDto requestDto) {
         return memberListRepository.save(requestDto.toEntity()).getId();
     }
+
+    public void saveClanMembers() {
+
+    }
     
     public List<MemberListResponseDto> readLatest() {
         List<MemberList> members = memberListRepository.findAll();

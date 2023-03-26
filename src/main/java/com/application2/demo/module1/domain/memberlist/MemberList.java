@@ -26,9 +26,9 @@ public class MemberList {
     private LocalDateTime regTime;
 
     @Builder
-    public MemberList(String name, String tag, LocalDateTime time) {
+    public MemberList(String name, String tag, LocalDateTime regTime) {
         this.name = name;
         this.tag = tag;
-        this.regTime = time;
+        this.regTime = regTime;
     }
 }
