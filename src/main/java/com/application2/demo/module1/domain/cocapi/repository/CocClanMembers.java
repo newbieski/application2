@@ -43,8 +43,13 @@ public class CocClanMembers {
         for (int i = 0 ; i < items.length() ; i++) {
             JSONObject member = items.getJSONObject(i);
             CocApiClanMember cocApiClanMember = CocApiClanMember.builder()
-                    .name(member.get("name").toString())
-                    .tag(member.get("tag").toString())
+                    .name(member.getString("name"))
+                    .tag(member.getString("tag"))
+                    .role(member.getString("role"))
+                    .expLevel(member.getLong("expLevel"))
+                    .donations(member.getLong("donations"))
+                    .donationsReceived(member.getLong("donationsReceived"))
+                    .trophies(member.getLong("trophies"))
                     .regTime(regTime)
                     .build();
             res.add(cocApiClanMember);
