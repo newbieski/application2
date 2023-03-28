@@ -1,1 +1,1 @@
-psql -U postgres -h localhost -p 5432 < $1
+psql -U postgres -h localhost -p 5432 -d coc < $1
