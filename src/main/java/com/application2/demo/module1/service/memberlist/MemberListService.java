@@ -1,5 +1,7 @@
 package com.application2.demo.module1.service.memberlist;
 
+import com.application2.demo.module1.domain.cocapi.clanmembers.CocApiClanMember;
+import com.application2.demo.module1.domain.cocapi.repository.CocClanMembers;
 import com.application2.demo.module1.domain.memberlist.MemberListRepository;
 import com.application2.demo.module1.domain.memberlist.MemberList;
 import com.application2.demo.module1.web.dto.MemberListResponseDto;
@@ -14,10 +16,14 @@ import java.time.LocalDateTime;
 @Service
 public class MemberListService {
     private final MemberListRepository memberListRepository;
+    private final CocClanMembers cocClanMembers;
 
-    @Transactional
-    public Long save(MemberListSaveRequestDto requestDto) {
-        return memberListRepository.save(requestDto.toEntity()).getId();
+    public void saveClanMembers() {
+        cocClanMembers.load();
+        List<CocApiClanMember> members = cocClanMembers.getClanMembers();
+        for (CocApiClanMember member : members) {
+            memberListRepository.save(member.toEntity());
+        }
     }
     
     public List<MemberListResponseDto> readLatest() {

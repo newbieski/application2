@@ -25,7 +25,7 @@ public class MemberListSaveRequestDto {
         return MemberList.builder()
                 .name(name)
                 .tag(tag)
-                .time(time)
+                .regTime(time)
                 .build();
     }
 }
