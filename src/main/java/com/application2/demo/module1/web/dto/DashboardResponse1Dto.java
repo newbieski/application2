@@ -56,7 +56,7 @@ public class DashboardResponse1Dto {
 
     private long calcMemberPoint() {
         // clanwar, clanleague, capital, donation, role
-        long[] weight = {100, 100, 2, 3, 1};
+        long[] weight = {10000, 10000, 2, 3, 1};
         long[] point = new long[5];
 
         // 참 유지보수 힘들게 구현한다
