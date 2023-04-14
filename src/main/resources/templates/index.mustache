@@ -6,23 +6,21 @@
             <table class="table table-horizontal table-bordered">
                         <thead class="thead-strong">
                         <tr>
-                            <th>ID</th>
+                            <th>ID(role)</th>
                             <th>습격전 공격</th>
-                            <th>클랜리그 참여/기회</th>
-                            <th>클랜리그 기여한 별</th>
-                            <th>클랜전 참여/기회</th>
-                            <th>클랜전 기여한 별</th>
+                            <th>클랜리그 참여/기회/별</th>
+                            <th>클랜전 참여/기회/별</th>
+                            <th>지원 주고/받고</th>
                         </tr>
                         </thead>
                         <tbody id="tbody">
                         {{#dashboard1}}
                             <tr>
-                                <td>{{name}}</td>
+                                <td>{{name}}({{role}})</td>
                                 <td>{{capitalRaidAttackCount}}</td>
-                                <td>{{clanwarlegueUsedAttackCount}} / {{clanwarlegueTotalAttackCount}}</td>
-                                <td>{{clanwarleagueStars}}</td>
-                                <td>{{clanwarUsedAttackCount}} / {{clanwarTotalAttackCount}}</td>
-                                <td>{{clanwarStars}}</td>
+                                <td>{{clanwarlegueUsedAttackCount}} / {{clanwarlegueTotalAttackCount}} / {{clanwarleagueStars}}</td>
+                                <td>{{clanwarUsedAttackCount}} / {{clanwarTotalAttackCount}} / {{clanwarStars}}</td>
+                                <td>{{donations}} / {{donationsReceived}}</td>
                             </tr>
                         {{/dashboard1}}
                         </tbody>

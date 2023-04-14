@@ -55,8 +55,20 @@ public class DashboardService {
                             .clanwarUsedAttackCount(clanwarAttackResponse.getUsed(tag))
                             .clanwarTotalAttackCount(clanwarAttackResponse.getTotal(tag))
                             .clanwarStars(clanwarAttackResponse.getStars(tag))
+                            .role(cur.getRole())
+                            .donations(cur.getDonations())
+                            .donationsReceived(cur.getDonationsReceived())
                             .build());
         }
+        Collections.sort(response, new Comparator<DashboardResponse1Dto>() {
+            @Override
+            public int compare(DashboardResponse1Dto o1, DashboardResponse1Dto o2) {
+                if (o1.getMemberPoint() > o2.getMemberPoint()) {
+                    return -1;
+                }
+                return 1;
+            }
+        });
         
         return response;
     }

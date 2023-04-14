@@ -43,10 +43,16 @@ public class MemberListService {
                 break;
             }
             response.add(MemberListResponseDto.builder()
-                        .name(member.getName())
-                        .tag(member.getTag())
-                        .regTime(member.getRegTime())
-                        .build());
+                    .name(member.getName())
+                    .tag(member.getTag())
+                    .role(member.getRole())
+                    .donations(member.getDonations())
+                    .donationsReceived(member.getDonationsReceived())
+                    .regTime(member.getRegTime())
+                    .build());
+
+
+
         }
         
         return response;
