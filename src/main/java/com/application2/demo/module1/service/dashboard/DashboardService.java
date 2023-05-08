@@ -66,6 +66,9 @@ public class DashboardService {
                 if (o1.getMemberPoint() > o2.getMemberPoint()) {
                     return -1;
                 }
+                else if (o1.getMemberPoint() == o2.getMemberPoint()) {
+                    return 0;
+                }
                 return 1;
             }
         });
